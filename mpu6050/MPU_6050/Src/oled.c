@@ -67,7 +67,7 @@ void oled_clear(void)
 		oled_wr_byte (0x00,oled_cmd);      //设置显示位置—列低地址
 		oled_wr_byte (0x10,oled_cmd);      //设置显示位置—列高地址   
 		for(n=0;n<128;n++)
-		oled_wr_byte(0,oled_cmd); 
+		oled_wr_byte(0,oled_data); 
 	} //更新显示
 }
 

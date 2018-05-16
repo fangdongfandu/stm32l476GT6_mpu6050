@@ -41,6 +41,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "oled.h"
+#include "mpu6050.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -67,7 +68,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	uint16_t temperature_value;
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -88,8 +89,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	oled_init();
 	//oled_showstring(0,0,"hello");
+	
 	oled_showchar(0,0,'a');
-	oled_showstring(0,2,"hello word!");
+	oled_showstring(0,2,"hello!");
+	
 	
   /* USER CODE END 2 */
 
@@ -100,7 +103,9 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		temperature_value = MPU_Get_Temperature();
+		oled_shownum(16,0,temperature_value,8,16);
+	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		HAL_Delay(1000);
   }
   /* USER CODE END 3 */
