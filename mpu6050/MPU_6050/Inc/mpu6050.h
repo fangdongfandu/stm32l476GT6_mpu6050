@@ -84,7 +84,7 @@
 //#define MPU_WRITE   0XD0
 
 #define I2C_TIMEOUT 5000
-unsigned char MPU_Init(void); 								//初始化MPU6050
+unsigned char MPU6050_Init(void); 								//初始化MPU6050
 unsigned char MPU_Write_Len(unsigned char addr,unsigned char reg,unsigned char len,unsigned char *buf);//IIC连续写
 unsigned char MPU_Read_Len(unsigned char addr,unsigned char reg,unsigned char len,unsigned char *buf); //IIC连续读 
 unsigned char MPU_Write_Byte(unsigned char reg,unsigned char data);				//IIC写一个字节

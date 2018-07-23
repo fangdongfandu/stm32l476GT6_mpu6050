@@ -1,7 +1,8 @@
 #include "mpu6050.h"
 #include "i2c.h"
+#include "usart.h"
 
-unsigned char MPU_Init(void)
+unsigned char MPU6050_Init(void)
 { 
 	unsigned char res;
 	MPU_Write_Byte(MPU_PWR_MGMT1_REG,0X80);	//复位MPU6050
@@ -128,11 +129,11 @@ unsigned char MPU_Get_Accelerometer(short *ax,short *ay,short *az)
 //    其他,错误代码
 unsigned char MPU_Write_Len(unsigned char addr,unsigned char reg,unsigned char len,unsigned char *buf)
 {
-    if(HAL_I2C_Mem_Read(&hi2c1,(addr << 1),(uint16_t)reg,sizeof(uint8_t),buf,len,I2C_TIMEOUT) != HAL_OK)
+    if(HAL_I2C_Mem_Write(&hi2c1,(addr << 1),(uint16_t)reg,sizeof(uint8_t),buf,len,I2C_TIMEOUT) != HAL_OK)
         {
-            //log_printf("I2C1 memery write failed!");
+            log_printf("I2C1 memery write len failed!");
         }
-		return 1;
+		return 0;
 } 
 
 //IIC连续读
@@ -145,9 +146,9 @@ unsigned char MPU_Write_Len(unsigned char addr,unsigned char reg,unsigned char l
 unsigned char MPU_Read_Len(unsigned char addr,unsigned char reg,unsigned char len,unsigned char *buf)
 { 
     uint8_t tmp = 0;
-    if(HAL_I2C_Mem_Read(&hi2c1,(addr << 1) + 1,(uint16_t)reg,sizeof(uint8_t),buf,len,I2C_TIMEOUT) != HAL_OK)
+    if(HAL_I2C_Mem_Read(&hi2c1,((addr << 1) + 1),(uint16_t)reg,sizeof(uint8_t),buf,len,I2C_TIMEOUT) != HAL_OK)
         {
-            //log_printf("I2C1 memery write failed!");
+            log_printf("I2C1 memery write len failed!");
         }
     return tmp;
 }
@@ -161,9 +162,9 @@ unsigned char MPU_Write_Byte(unsigned char reg,unsigned char data)
 { 
     if(HAL_I2C_Mem_Write(&hi2c1,(MPU_ADDR<<1),(uint16_t)reg,sizeof(uint8_t),&data,sizeof(uint8_t),I2C_TIMEOUT) != HAL_OK)
     {
-        //log_printf("I2C2 memery write failed!");
+        log_printf("I2C1 memery write failed!");
     }
-		return 1;
+		return 0;
 }
 
 //IIC读一个字节 
@@ -172,9 +173,9 @@ unsigned char MPU_Write_Byte(unsigned char reg,unsigned char data)
 unsigned char MPU_Read_Byte(unsigned char reg)
 {
     uint8_t tmp = 0;
-    if(HAL_I2C_Mem_Read(&hi2c1,(MPU_ADDR<<1) + 1,(uint16_t)reg,sizeof(uint8_t),&tmp,sizeof(uint8_t),I2C_TIMEOUT) != HAL_OK)
+    if(HAL_I2C_Mem_Read(&hi2c1,((MPU_ADDR<<1) + 1),(uint16_t)reg,sizeof(uint8_t),&tmp,sizeof(uint8_t),I2C_TIMEOUT) != HAL_OK)
         {
-            //log_printf("I2C1 memery write failed!");
+            log_printf("I2C1 memery write failed!");
         }
     return tmp;	
 }
